@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/register', 'PaymentController@store');
+Route::post('/payments/{payment}', 'PaymentController@resolve');
+

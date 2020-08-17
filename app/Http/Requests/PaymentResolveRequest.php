@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Luhn;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PaymentResolveRequest extends FormRequest
@@ -24,10 +25,10 @@ class PaymentResolveRequest extends FormRequest
     public function rules()
     {
         return [
-            'owner'         => 'present',
-            'number'        => 'present',
-            'expiration'    => 'present',
-            'cvv'           => 'present',
+            'owner'         => 'required|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
+            'number'        => ['required', new Luhn()],
+            'expiration'    => 'required|regex:/^\d{2}\/\d{2}$/',
+            'cvv'           => 'required|regex:/^\d{3}$/',
         ];
     }
 }

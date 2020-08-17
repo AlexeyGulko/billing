@@ -24,34 +24,70 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cc-name">Имя владельца</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="" required="" name="owner">
+                        <input
+                            type="text"
+                            class="form-control @error('owner') is-invalid @enderror"
+                            id="cc-name"
+                            placeholder=""
+                            required=""
+                            name="owner"
+                        >
                         <small class="text-muted">Полное имя владельца</small>
+                        @error('owner')
                         <div class="invalid-feedback">
-                            Name on card is required
+                            {{ $message }}
                         </div>
+                        @enderror
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number">номер карты</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required="" name="number">
+                        <input
+                            type="text"
+                            class="form-control @error('number') is-invalid @enderror"
+                            id="cc-number"
+                            placeholder=""
+                            required=""
+                            name="number"
+                        >
+                        @error('number')
                         <div class="invalid-feedback">
-                            Credit card number is required
+                            {{ $message }}
                         </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required="" name="expiration">
+                        <input
+                            type="text"
+                            class="form-control @error('expiration') is-invalid @enderror"
+                            id="cc-expiration"
+                            placeholder=""
+                            required=""
+                            name="expiration"
+                        >
+                        @error('expiration')
                         <div class="invalid-feedback">
-                            Expiration date required
+                            {{ $message }}
                         </div>
+                        @enderror
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-cvv">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required="" name="cvv">
+                        <input
+                            type="text"
+                            class="form-control @error('cvv') is-invalid @enderror"
+                            id="cc-cvv"
+                            placeholder=""
+                            required=""
+                            name="cvv"
+                        >
+                        @error('cvv')
                         <div class="invalid-feedback">
-                            Security code required
+                            {{ $message }}
                         </div>
+                        @enderror
                     </div>
                 </div>
                 <hr class="mb-4">
