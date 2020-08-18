@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckPaymentEpxiration;
 use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\PaymentResolveRequest;
 use App\Payment;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this
+            ->middleware(CheckPaymentEpxiration::class)
+            ->only(['resolve', 'show',])
+        ;
+    }
+
     public function create()
     {
-        return view('index');
+        return view('payments.create');
     }
 
     public function store(CreatePaymentRequest $request)
@@ -28,8 +38,9 @@ class PaymentController extends Controller
 
     public function resolve(Payment $payment, PaymentResolveRequest $request)
     {
+        $payment->update(['resolved_at' => Carbon::now()]);
         return $request->wantsJson()
-            ? response()->json($request->validated())
-            : response()->redirectTo(route('payments.show', $payment));
+            ? response()
+            : response()->view('payments.success');
     }
 }

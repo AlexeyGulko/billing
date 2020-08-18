@@ -31,6 +31,7 @@
                             placeholder=""
                             required=""
                             name="owner"
+                            value="{{ old('owner') }}"
                         >
                         <small class="text-muted">Полное имя владельца</small>
                         @error('owner')
@@ -48,6 +49,7 @@
                             placeholder=""
                             required=""
                             name="number"
+                            value="{{ old('number') }}"
                         >
                         @error('number')
                         <div class="invalid-feedback">
@@ -66,6 +68,7 @@
                             placeholder=""
                             required=""
                             name="expiration"
+                            value="{{ old('expiration') }}"
                         >
                         @error('expiration')
                         <div class="invalid-feedback">
@@ -91,7 +94,7 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Оплатить</button>
             </form>
         </div>
     </div>

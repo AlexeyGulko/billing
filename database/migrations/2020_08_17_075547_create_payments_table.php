@@ -18,7 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->decimal('value', 8, 2);
             $table->string('recipient');
             $table->uuid('uuid');
-            $table->timestamp('created_at', 0);
+            $table->timestamps();
             $table->timestamp('resolved_at', 0)->nullable();;
         });
     }

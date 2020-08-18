@@ -2,12 +2,13 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Payment extends Model
 {
-    protected $fillable = ['value', 'recipient'];
+    protected $fillable = ['value', 'recipient', 'resolved_at'];
 
     protected $dates = [
         'resolved_at',
@@ -26,5 +27,13 @@ class Payment extends Model
         return 'uuid';
     }
 
-    public function setUpdatedAt($value) {}
+    public function getExpiresAtAttribute($value)
+    {
+        return $this->created_at->addMinutes(2);
+    }
+
+    public function isExpired()
+    {
+        return $this->expires_at <= Carbon::now();
+    }
 }

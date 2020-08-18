@@ -24,8 +24,8 @@ class CreatePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'value'   => 'present',
-            'recipient' => 'present',
+            'value'   => 'required',
+            'recipient' => 'required',
         ];
     }
 }
