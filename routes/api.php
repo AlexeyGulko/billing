@@ -20,4 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/payments', 'PaymentController@store')->name('api.payments.store');
 Route::post('/payments/{payment}', 'PaymentController@resolve')->name('api.payments.resolve');
-Route::get('/payments', 'PaymentController@index');
+Route::get('/payments', 'PaymentController@index')->name('api.payments.index');

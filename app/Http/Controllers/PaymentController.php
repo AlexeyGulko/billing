@@ -7,7 +7,6 @@ use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\PaymentIndexRequest;
 use App\Http\Requests\PaymentResolveRequest;
 use App\Payment;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -52,7 +51,7 @@ class PaymentController extends Controller
 
     public function resolve(Payment $payment, PaymentResolveRequest $request)
     {
-        $payment->update(['resolved_at' => Carbon::now()]);
+        $payment->resolve();
         return $request->wantsJson()
             ? response()->json($payment->toJson())
             : response()->view('payments.success');

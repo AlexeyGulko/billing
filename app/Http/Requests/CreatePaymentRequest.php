@@ -26,6 +26,7 @@ class CreatePaymentRequest extends FormRequest
         return [
             'value'   => 'required',
             'recipient' => 'required',
+            'notificationURL' => 'present',
         ];
     }
 }

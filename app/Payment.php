@@ -2,24 +2,32 @@
 
 namespace App;
 
+use App\Events\PaymentResolved;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class Payment extends Model
 {
-    protected $fillable = ['value', 'recipient', 'resolved_at'];
+    use Notifiable;
+
+    protected $fillable = ['value', 'recipient', 'resolved_at', 'notificationURL'];
 
     protected $dates = [
+        'created_at',
         'resolved_at',
     ];
+
+    public $timestamps = false;
 
     protected static function boot()
     {
         parent::boot();
         static::creating(function ($query) {
+            $query->created_at = Carbon::now();
             $query->uuid = Str::uuid();
         });
     }
@@ -46,27 +54,34 @@ class Payment extends Model
 
     public function scopeFrom(Builder $query, Request $request)
     {
-        if ($request->has('from')) {
-            return $query
+        return $query->when($request->has('from'), function ($query) use ($request) {
+            $query
                 ->where(
                     'resolved_at',
                     '>=',
                     Carbon::parse($request->from)
                 );
-        }
-        return $query;
+        });
     }
 
     public function scopeTo(Builder $query, Request $request)
     {
-        if ($request->has('to')) {
-            return $query
+        return $query->when($request->has('to'), function ($query) use ($request) {
+            $query
                 ->where(
                     'resolved_at',
                     '<=',
                     Carbon::parse($request->to)
                 );
-        }
-        return $query;
+        });
     }
+
+    public function resolve()
+    {
+        $this->update(['resolved_at' => Carbon::now()]);
+        if (! empty($this->notificationURL)) {
+            event(new PaymentResolved($this));
+        }
+    }
+
 }

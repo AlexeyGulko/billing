@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/payments', 'PaymentController@index');
+Route::get('/payments', 'PaymentController@index')->name('payments.index');
 Route::get('/payments/create', 'PaymentController@create')->name('payments.create');
 Route::post('/payments', 'PaymentController@store')->name('payments.store');
 Route::get('/payments/{payment}', 'PaymentController@show')->name('payments.show');

@@ -15,11 +15,12 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->string('notificationURL')->nullable();
             $table->decimal('value', 8, 2);
             $table->string('recipient');
             $table->uuid('uuid');
-            $table->timestamps();
-            $table->timestamp('resolved_at', 0)->nullable();;
+            $table->timestamp('created_at', 0);
+            $table->timestamp('resolved_at', 0)->nullable();
         });
     }
 
