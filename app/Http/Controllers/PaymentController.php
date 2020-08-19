@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckPaymentEpxiration;
 use App\Http\Requests\CreatePaymentRequest;
+use App\Http\Requests\PaymentIndexRequest;
 use App\Http\Requests\PaymentResolveRequest;
 use App\Payment;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -18,6 +20,18 @@ class PaymentController extends Controller
         ;
     }
 
+    public function index(PaymentIndexRequest $request )
+    {
+        $payments = Payment::resolved()
+            ->to($request)
+            ->from($request)
+            ->get()
+        ;
+        return $request->wantsJson()
+            ? response()->json($payments)
+            : $payments;
+    }
+
     public function create()
     {
         return view('payments.create');
@@ -27,7 +41,7 @@ class PaymentController extends Controller
     {
         $payment = Payment::create($request->validated());
         return $request->wantsJson()
-            ? response()->json(['url' => route('payments.show', $payment)])
+            ? response()->json(['url' => route('payments.show', $payment)], 201)
             : response()->redirectTo(route('payments.show', $payment));
     }
 
@@ -40,7 +54,7 @@ class PaymentController extends Controller
     {
         $payment->update(['resolved_at' => Carbon::now()]);
         return $request->wantsJson()
-            ? response()
+            ? response()->json($payment->toJson())
             : response()->view('payments.success');
     }
 }
