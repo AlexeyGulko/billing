@@ -24,9 +24,9 @@ class CreatePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'value'   => 'required',
+            'value'     => ['required', 'regex:/^\d{1,8}($|\.\d{0,2}$)/',],
             'recipient' => 'required',
-            'notificationURL' => 'present',
+            'notificationURL' => 'nullable|url',
         ];
     }
 }

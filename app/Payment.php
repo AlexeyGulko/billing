@@ -28,7 +28,7 @@ class Payment extends Model
         parent::boot();
         static::creating(function ($query) {
             $query->created_at = Carbon::now();
-            $query->uuid = Str::uuid();
+            $query->uuid = (string) Str::uuid();
         });
     }
 
@@ -44,7 +44,12 @@ class Payment extends Model
 
     public function isExpired()
     {
-        return $this->expires_at <= Carbon::now();
+        return $this->expires_at < Carbon::now();
+    }
+
+    public function isResolved()
+    {
+        return $this->resolved_at !== null;
     }
 
     public function scopeResolved(Builder $query)
@@ -83,5 +88,4 @@ class Payment extends Model
             event(new PaymentResolved($this));
         }
     }
-
 }

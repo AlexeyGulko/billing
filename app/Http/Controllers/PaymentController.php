@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckPaymentEpxiration;
+use App\Http\Middleware\CheckResolvedPayment;
 use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\PaymentIndexRequest;
 use App\Http\Requests\PaymentResolveRequest;
@@ -17,6 +18,9 @@ class PaymentController extends Controller
             ->middleware(CheckPaymentEpxiration::class)
             ->only(['resolve', 'show',])
         ;
+        $this->middleware(CheckResolvedPayment::class)
+            ->only(['resolve', 'show',])
+        ;
     }
 
     public function index(PaymentIndexRequest $request )
@@ -27,7 +31,7 @@ class PaymentController extends Controller
             ->get()
         ;
         return $request->wantsJson()
-            ? response()->json($payments)
+            ? response()->json($payments, 200)
             : $payments;
     }
 
@@ -53,7 +57,7 @@ class PaymentController extends Controller
     {
         $payment->resolve();
         return $request->wantsJson()
-            ? response()->json($payment->toJson())
+            ? response()->json(['resolved' => $payment->isResolved()], 200)
             : response()->view('payments.success');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class CheckPaymentEpxiration
+class CheckResolvedPayment
 {
     /**
      * Handle an incoming request.
@@ -15,15 +15,15 @@ class CheckPaymentEpxiration
      */
     public function handle($request, Closure $next)
     {
-        if ($request->route('payment')->isExpired()) {
+        if ($request->route('payment')->isResolved()) {
             return $request->wantsJson()
                 ? response()->json(
                     [
                         'errors' =>
-                            ['payment' => 'Payment session is expires.']
+                            ['payment' => 'Payment already resolved.']
                     ],
                     422)
-                : response()->view('payments.timeout');
+                : response()->view('payments.success');
         }
         return $next($request);
     }

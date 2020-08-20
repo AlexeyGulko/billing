@@ -28,7 +28,7 @@ class PaymentResolveRequest extends FormRequest
             'owner'         => 'required|regex:/^[a-zA-Z]+ [a-zA-Z]+$/',
             'number'        => ['required', new Luhn()],
             'expiration'    => 'required|regex:/^\d{2}\/\d{2}$/',
-            'cvv'           => 'required|regex:/^\d{3}$/',
+            'cvv'           => 'required|digits:3',
         ];
     }
 }
