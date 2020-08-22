@@ -40,7 +40,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Copy existing application directory contents
 COPY . /var/www
-
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www
 

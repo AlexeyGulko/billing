@@ -65,6 +65,15 @@ services:
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app
+#  composer service
+  composer_installation:
+    container_name: composer
+    image: composer
+    volumes:
+      - ./:/app
+    depends_on:
+      - app
+    command: composer install --prefer-dist --optimize-autoloader && composer clear-cache
 
 #Docker Networks
 networks:
