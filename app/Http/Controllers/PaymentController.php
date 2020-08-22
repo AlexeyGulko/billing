@@ -58,6 +58,6 @@ class PaymentController extends Controller
         $payment->resolve();
         return $request->wantsJson()
             ? response()->json(['resolved' => $payment->isResolved()], 200)
-            : response()->view('payments.success');
+            : redirect()->back();
     }
 }
