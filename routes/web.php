@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'PaymentController@create')->name('home');
 
 Route::get('/payments', 'PaymentController@index')->name('payments.index');
 Route::get('/payments/create', 'PaymentController@create')->name('payments.create');
