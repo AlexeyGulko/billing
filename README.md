@@ -1,12 +1,9 @@
 
-## Billing application
+# Billing application
 
-###how to install 
+##how to install 
 
 - clone this repo
-- run `docker run --rm -v $(pwd):/app composer install`
 - in project directory run `cp .env.example .env` and config it  
-- run in git project directory `docker-compose up -d` 
-- after run `docker-compose exec app php artisan key:generate
-` and `docker-compose exec app php artisan migrate
-`
+- run in git project directory `docker-compose composer` and wait  
+- run `docker-compose up -d`
